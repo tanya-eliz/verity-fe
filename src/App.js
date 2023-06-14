@@ -3,18 +3,16 @@ import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LandingPage from './components/LandingPage.js';
 import GamePage from './components/GamePage';
+import ImageGenerator from './components/ImagePage';
+import Storyline from './components/Storyline';
 
 function App() {
   const router = createBrowserRouter([
-    { path: '/', element: <LandingPage/> },
+    { path: '/landing', element: <LandingPage/> },
     { path: '/begin', element: <GamePage/> },
+    { path: '/', element: <ImageGenerator/> },
+    { path: '/storyline', element: <Storyline/> }
   ])
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (gameState) {
-  //     navigate('/');
-  //   }
-  // }, [gameState]);
 
   return (
     <div className="App">
@@ -24,3 +22,4 @@ function App() {
 }
 
 export default App;
+
