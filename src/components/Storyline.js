@@ -9,13 +9,14 @@ import { MainContainer, ChatContainer, MessageList, Message, MessageInput, Typin
 const API_KEY = "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";
 
 const systemMessage = { 
-  "role": "system", "content": "In Chronicles of Verity, the player is a hero chosen by the mystical Oracle of Verity. The Oracle is in possession of a magical artifact that has the power to alter reality. The artifact has been stolen, and it's up to the player to recover it and restore balance. Speak like a narrator in an adventure genre story and always end your response with a question for the user to keep the story going. End the game after 18 exchanges with the user."
+  "role": "system", 
+  "content": "In Chronicles of Verity, the player is a hero chosen by the mystical Oracle of Verity. The Oracle is in possession of a magical artifact that has the power to alter reality. The artifact has been stolen, and it's up to the player to recover it and restore balance. Speak like a narrator in an adventure genre story and always end your response with a question for the user to keep the story going. End the game after 18 exchanges with the user."
 }
 
-function Storyline({bgImage}) {
+function Storyline({bgImage,name,town}) {
   const [messages, setMessages] = useState([
     {
-      message: "Elara's voice fades, and the world waits for your choice. The Crystal Caverns, the Whispering Woods, or the Shimmering Shores - where will your adventure take you, xxx from xxx? ",
+      message: `Elara's voice fades, and the world waits for your choice. The Crystal Caverns, the Whispering Woods, or the Shimmering Shores - where will your adventure take you, ${name} from ${town}? `,
       sentTime: "just now",
       sender: "ChatGPT"
     }

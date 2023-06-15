@@ -22,6 +22,7 @@
     "react-router-dom": "^6.12.1",
     "react-scripts": "5.0.1",
     "svg-filter": "^1.2.2",
+    "typewriter-effect": "^2.20.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

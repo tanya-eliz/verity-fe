@@ -8,6 +8,7 @@ import {
 } from "../constants";
 import {
 	ChakraProvider,
+	Box,
 	Heading,
 	Container,
 	Text,
@@ -22,7 +23,7 @@ import {
 	Spinner,
 	Badge
 } from "@chakra-ui/react";
-import {	ExternalLinkIcon } from "@chakra-ui/icons";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 const LoginModalComponent = () => {  
   const [errorMessage, setErrorMessage] = useState(null);
@@ -270,54 +271,67 @@ const LoginModalComponent = () => {
 		setIsLoading(false);
 	}
 
-
 	// listen for account changes
 	window.ethereum.on('accountsChanged', accountChangedHandler);
 	window.ethereum.on('chainChanged', chainChangedHandler);
 
   return (
 		<ChakraProvider>
-    <div>
-			{account==='' ? 
-				<Button type="button" onClick={connectButtonClickHandler}>{connButtonText}</Button> 
-			: isLoading ?
-				<Spinner size="xl" />
-			:
-				<>
-					<div className='accountDisplay'>
-						<h3>Address: {account}</h3>
-					</div>
-					<div className='balanceDisplay'>
-						<h3>Balance: {userBalance}</h3>
-					</div>
-				</>
-			}
-			{account!=='' && userMaticBalance==0 ? 
-				<Link href="https://mumbaifaucet.com/" textDecoration={"underline"} isExternal>Get Your Testnet MATIC Here<ExternalLinkIcon mx='2px' /></Link> 
-			: 
-				null
-			}
-			{userBalance>0 ? 
-				<Button onClick={() => depositWithPermit(1)}>Deposit</Button> 
-			: 
-				null
-			}
-			{userMaticBalance>0 ? 
-				<Button onClick={requestFromFaucet}>Get More Verity Token</Button> 
-			: 
-				null
-			}
-			{account!==''? 
-				<Button onClick={resetState}>Logout</Button> 
-			: 
-				null
-			}
-			{errorMessage ? 
-				<Badge colorScheme='red'>{errorMessage}</Badge> 
-			: 
-				null
-			}
-    </div>
+			<Box style={{
+				backgroundColor: "rgba(255, 255, 255,0.6)",
+				padding: "10px",
+				borderRadius: "10px",
+				position: "absolute",
+				right: "10px",
+				display: "flex",
+				flexDirection: "column"
+			}}>
+				{account==='' ? 
+					<Button type="button" onClick={connectButtonClickHandler}>{connButtonText}</Button> 
+				: isLoading ?
+					<Spinner size="xl" />
+				:
+					<>
+						<Box className='accountDisplay'>
+							<Text>Address: {account}</Text>
+						</Box>
+						<Box className='balanceDisplay'>
+							<Text>Balance: {userBalance}</Text>
+						</Box>
+					</>
+				}
+				{account!=='' && userMaticBalance==0 ? 
+					<Link href="https://mumbaifaucet.com/" textDecoration={"underline"} isExternal>Get Your Testnet MATIC Here<ExternalLinkIcon mx='2px' /></Link> 
+				: 
+					null
+				}
+				{userBalance>0 ? 
+					<Button style={{
+						marginTop: '5px',
+					}} onClick={() => depositWithPermit(1)}>Deposit</Button> 
+				: 
+					null
+				}
+				{userMaticBalance>0 ? 
+					<Button style={{
+						marginTop: '5px',
+					}} onClick={requestFromFaucet}>Get More Verity Token</Button> 
+				: 
+					null
+				}
+				{account!==''? 
+					<Button style={{
+						marginTop: '5px',
+					}} onClick={resetState}>Logout</Button> 
+				: 
+					null
+				}
+				{errorMessage ? 
+					<Badge colorScheme='red'>{errorMessage}</Badge> 
+				: 
+					null
+				}
+			</Box>
 		</ChakraProvider>
   );
 }
