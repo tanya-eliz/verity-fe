@@ -13,11 +13,15 @@ import {
 
 import LoginModalComponent from './components/LoginModalComponent';
 // import FaucetComponent from './components/FaucetComponent';
+import ImageGenerator from './components/ImagePage';
+import Storyline from './components/Storyline';
 
 function App() {
   const router = createBrowserRouter([
-    { path: '/', element: <LandingPage/> },
+    { path: '/landing', element: <LandingPage/> },
     { path: '/begin', element: <GamePage/> },
+    { path: '/', element: <ImageGenerator/> },
+    { path: '/storyline', element: <Storyline/> }
   ])
 
   return (
@@ -29,3 +33,4 @@ function App() {
 }
 
 export default App;
+

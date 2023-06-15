@@ -1,6 +1,6 @@
 // Polygon Testnet params
 export const POLYGON_TESTNET_PARAMS = {
-  chainId: '0x13881', // 8001
+  chainId: '0x13881', // 80001
   chainName: 'Mumbai',
   nativeCurrency: {
     name: 'MATIC Token',
@@ -527,6 +527,39 @@ export const FaucetABI = [
     "type": "constructor"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "deadline",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint8",
+        "name": "v",
+        "type": "uint8"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "r",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "s",
+        "type": "bytes32"
+      }
+    ],
+    "name": "depositWithPermit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "requestTokens",
     "outputs": [],
@@ -581,4 +614,4 @@ export const FaucetABI = [
 
 export const VerityTokenAddress = "0x87b79D050d22fA53F8E4E2929cD49c80b5f06651";
 
-export const FaucetAddress = "0xB406F8320489A8F49b58cC21FeeE00523A6AaADB";
+export const FaucetAddress = "0xA29D1C5C6447F2E71C48368599E5f0160eE2C24d";
