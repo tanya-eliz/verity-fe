@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LandingPage from './components/LandingPage.js';
 import GamePage from './components/GamePage';
 import { ethers } from "ethers";
+
 import {
   VerityTokenABI,
   FaucetABI,
@@ -15,11 +16,11 @@ import LoginModalComponent from './components/LoginModalComponent';
 // import FaucetComponent from './components/FaucetComponent';
 import ImageGenerator from './components/ImagePage';
 import Storyline from './components/Storyline';
+import FragmentEffect from './components/FragmentEffect';
 
 function App() {
   const router = createBrowserRouter([
     { path: '/landing', element: <LandingPage/> },
-    { path: '/begin', element: <GamePage/> },
     { path: '/', element: <ImageGenerator/> },
     { path: '/storyline', element: <Storyline/> }
   ])
@@ -27,6 +28,8 @@ function App() {
   return (
     <div className="App">
       <LoginModalComponent />
+      {/* <FragmentEffect /> */}
+      <GamePage/>
       <RouterProvider router={router} />
     </div>
   );
