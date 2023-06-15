@@ -22,7 +22,7 @@ import Storyline from "./Storyline";
     const [loading, updateLoading] = useState();
 
     useEffect(() => {
-      if (message.length){
+      if (message && message.length){
         const firstSentence = message.split(".")[0];
         const getImageFromDreamStudio = async (message) => {
           const engineId = 'stable-diffusion-xl-beta-v2-2-2'
@@ -76,19 +76,6 @@ import Storyline from "./Storyline";
     return (
       <ChakraProvider>
         <Container>
-          {/* <Heading marginBottom={"10px"}>Stable Diffusion🚀</Heading> */}
-          
-          {/* <Wrap marginBottom={"10px"}>
-            <Input
-              value={prompt}
-              onChange={(e) => updatePrompt(e.target.value)}
-              width={"350px"}
-            ></Input>
-            <Button onClick={(e) => generate(prompt)} colorScheme={"yellow"}>
-              Generate
-            </Button>
-          </Wrap> */}
-
           {loading ? (
             <Stack>
               <SkeletonCircle />

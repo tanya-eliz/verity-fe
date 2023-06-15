@@ -2,11 +2,10 @@ import {useContext, useState,useEffect} from 'react';
 import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LandingPage from './components/LandingPage.js';
-import GamePage from './components/GamePage';
 import { ethers } from "ethers";
 
 import {
-  VerityTokenABI,
+  VerityTokenABI, 
   FaucetABI,
   VerityTokenAddress,
   FaucetAddress,
@@ -21,15 +20,13 @@ import FragmentEffect from './components/FragmentEffect';
 function App() {
   const router = createBrowserRouter([
     { path: '/landing', element: <LandingPage/> },
-    { path: '/', element: <ImageGenerator/> },
-    { path: '/storyline', element: <Storyline/> }
+    { path: '/storyline', element: <Storyline/> },
   ])
 
   return (
     <div className="App">
       <LoginModalComponent />
       {/* <FragmentEffect /> */}
-      <GamePage/>
       <RouterProvider router={router} />
     </div>
   );

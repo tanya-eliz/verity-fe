@@ -3,7 +3,7 @@ const LandingPage = () => {
   const navigate = useNavigate();
   
   const handleClick = () => {
-    navigate("/begin")
+    navigate("/storyline")
   }
 
   return (
