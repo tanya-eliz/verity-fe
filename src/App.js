@@ -19,7 +19,7 @@ import FragmentEffect from './components/FragmentEffect';
 
 function App() {
   const router = createBrowserRouter([
-    { path: '/landing', element: <LandingPage/> },
+    { path: '/', element: <LandingPage/> },
     { path: '/storyline', element: <Storyline/> },
   ])
 

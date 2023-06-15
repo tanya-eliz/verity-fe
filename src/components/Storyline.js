@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ImageGenerator from './ImagePage';
+import {playAudio} from '../utils/tts';
 
 // will change the UI later
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
@@ -21,6 +22,12 @@ function Storyline({bgImage}) {
   ]);
   const [latestResponse,setLatestResponse] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(()=>{
+    if (latestResponse && latestResponse !== "") {
+      playAudio(latestResponse);
+    }
+  },[latestResponse])
 
   const handleSend = async (message) => {
     const newMessage = {

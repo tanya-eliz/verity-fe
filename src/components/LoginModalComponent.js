@@ -37,20 +37,17 @@ const LoginModalComponent = () => {
 	const [faucetContract, setFaucetContract] = useState(null);
 	const [requestFaucetPrompt, setRequestFaucetPrompt] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [isMetaMask, setIsMetaMask] = useState(false);
 
 	useEffect(() => {
-		if (isMetaMask) {
-			let providerInit = new ethers.providers.Web3Provider(window.ethereum)
-			let signerInit = providerInit.getSigner();
-			let ttkContractInit = new ethers.Contract(VerityTokenAddress, VerityTokenABI, signerInit);
-			let faucetContractInit = new ethers.Contract(FaucetAddress, FaucetABI, signerInit);
-			setProvider(providerInit);
-			setSigner(signerInit);
-			setTtkContract(ttkContractInit);
-			setFaucetContract(faucetContractInit);
-		}
-	}, [isMetaMask]);
+		let providerInit = new ethers.providers.Web3Provider(window.ethereum)
+		let signerInit = providerInit.getSigner();
+		let ttkContractInit = new ethers.Contract(VerityTokenAddress, VerityTokenABI, signerInit);
+		let faucetContractInit = new ethers.Contract(FaucetAddress, FaucetABI, signerInit);
+		setProvider(providerInit);
+		setSigner(signerInit);
+		setTtkContract(ttkContractInit);
+		setFaucetContract(faucetContractInit);
+	}, []);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -199,6 +196,7 @@ const LoginModalComponent = () => {
 				deadline
 			)
 			await faucetContract.depositWithPermit(amount, deadline, v, r, s);
+			queryTokenBalanceUpdated(userBalance);
 		} catch (err) {
 			setErrorMessage(err.message);
 		}
@@ -252,12 +250,30 @@ const LoginModalComponent = () => {
 		connectWalletHandler();
 	};
 
+	const queryTokenBalanceUpdated = async (oldBalance) => {
+		setIsLoading(true);
+		var result = await new Promise((resolve, reject) => {
+			const newBalance = setInterval(async () => {
+				try {
+					const balance = await ttkContract.balanceOf(account);
+					const parsedBalance = ethers.utils.formatEther(balance)
+					if (parsedBalance !== oldBalance) {
+						clearInterval(newBalance)
+						resolve(parsedBalance)
+					}
+				} catch (err) {
+					setErrorMessage(err.message);
+				}
+			}, 1000)
+		});
+		if (result!=null) setUserBalance(result);
+		setIsLoading(false);
+	}
+
 
 	// listen for account changes
-	if (isMetaMask) {
-		window.ethereum.on('accountsChanged', accountChangedHandler);
-		window.ethereum.on('chainChanged', chainChangedHandler);
-	}
+	window.ethereum.on('accountsChanged', accountChangedHandler);
+	window.ethereum.on('chainChanged', chainChangedHandler);
 
   return (
 		<ChakraProvider>

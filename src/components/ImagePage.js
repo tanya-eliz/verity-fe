@@ -23,7 +23,7 @@ import Storyline from "./Storyline";
 
     useEffect(() => {
       if (message && message.length){
-        const firstSentence = message.split(".")[0];
+        const firstSentence = message.split(".")[0]+message.split(".")[1];
         const getImageFromDreamStudio = async (message) => {
           const engineId = 'stable-diffusion-xl-beta-v2-2-2'
           const apiHost = process.env.API_HOST ?? 'https://api.stability.ai'
@@ -36,13 +36,13 @@ import Storyline from "./Storyline";
                 text_prompts: [
                   {
                     text: message,
-                    weight: 0.5
+                    weight: 0.8
                   },
                 ],
                 cfg_scale: 7,
                 clip_guidance_preset: 'FAST_BLUE',
                 height: 512,
-                width: 512,
+                width: 704,
                 samples: 1,
                 steps: 50,
                 style_preset: 'fantasy-art'
@@ -63,7 +63,6 @@ import Storyline from "./Storyline";
         }
         const generate = async (message) => {
           updateLoading(true);
-          // const result = await axios.get(`http://127.0.0.1:8000/?prompt=${prompt}`);
           const result = await getImageFromDreamStudio(message)
           updateImage(result);
           updateLoading(false);
