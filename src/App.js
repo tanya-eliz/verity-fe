@@ -7,6 +7,7 @@ import LoginModalComponent from './components/LoginModalComponent';
 import Storyline from './components/Storyline';
 import FragmentEffect from './components/FragmentEffect';
 import Prologue from './components/Prologue';
+import PenaltyRewardPage from './components/PenaltyRewardPage';
 
 function App() {
   const [name, setName] = useState(null);
@@ -21,6 +22,8 @@ function App() {
     { path: '/', element: <LandingPage account={account} setAccount={setAccount} userBalance={userBalance} setUserBalance={setUserBalance} rewardAmt={rewardAmt} setRewardAmt={setRewardAmt} reviveAmt={reviveAmt} setReviveAmt={setReviveAmt}/> },
     { path: '/prologue', element: <Prologue name={name} setName={setName} town={town} setTown={setTown} occupation={occupation} setOccupation={setOccupation}/> },
     { path: '/storyline', element: <Storyline name={name} town={town}/> },
+    { path: '/claim-reward', element: <PenaltyRewardPage account={account} setAccount={setAccount} userBalance={userBalance} setUserBalance={setUserBalance} rewardAmt={2} setRewardAmt={setRewardAmt} reviveAmt={reviveAmt} setReviveAmt={setReviveAmt}/> },
+    { path: '/revive', element: <PenaltyRewardPage account={account} setAccount={setAccount} userBalance={userBalance} setUserBalance={setUserBalance} rewardAmt={rewardAmt} setRewardAmt={setRewardAmt} reviveAmt={2} setReviveAmt={setReviveAmt}/> },
   ])
 
   return (
