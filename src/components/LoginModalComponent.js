@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import { useNavigate } from "react-router-dom";
 import {ethers, BigNumber} from 'ethers'
 import {
   VerityTokenABI,
@@ -20,13 +21,11 @@ import {
 	Link,
 	SkeletonCircle,
 	SkeletonText,
-	Spinner,
 	Badge
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 
-const LoginModalComponent = ({account,setAccount, userBalance, setUserBalance, rewardAmt, setRewardAmt, reviveAmt, setReviveAmt}) => {  
-  const [errorMessage, setErrorMessage] = useState(null);
+const LoginModalComponent = ({account,setAccount, userBalance, setUserBalance, rewardAmt, setRewardAmt, reviveAmt, setReviveAmt, isLogin, setErrorMessage, isLoading, setIsLoading}) => {  
 	const [loggedInClicked,setLoggedInClicked] = useState(false);
 	const [userMaticBalance, setUserMaticBalance] = useState(0);
 	const [connButtonText, setConnButtonText] = useState('Connect Wallet');
@@ -35,18 +34,23 @@ const LoginModalComponent = ({account,setAccount, userBalance, setUserBalance, r
 	const [ttkContract, setTtkContract] = useState(null);
 	const [faucetContract, setFaucetContract] = useState(null);
 	const [requestFaucetPrompt, setRequestFaucetPrompt] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
-		let providerInit = new ethers.providers.Web3Provider(window.ethereum)
-		let signerInit = providerInit.getSigner();
-		let ttkContractInit = new ethers.Contract(VerityTokenAddress, VerityTokenABI, signerInit);
-		let faucetContractInit = new ethers.Contract(FaucetAddress, FaucetABI, signerInit);
-		setProvider(providerInit);
-		setSigner(signerInit);
-		setTtkContract(ttkContractInit);
-		setFaucetContract(faucetContractInit);
-	}, []);
+		try {
+			let providerInit = new ethers.providers.Web3Provider(window.ethereum)
+			let signerInit = providerInit.getSigner();
+			let ttkContractInit = new ethers.Contract(VerityTokenAddress, VerityTokenABI, signerInit);
+			let faucetContractInit = new ethers.Contract(FaucetAddress, FaucetABI, signerInit);
+			setProvider(providerInit);
+			setSigner(signerInit);
+			setTtkContract(ttkContractInit);
+			setFaucetContract(faucetContractInit);
+			window.ethereum.on('accountsChanged', accountChangedHandler);
+			window.ethereum.on('chainChanged', chainChangedHandler);
+		}catch (e) {
+			setErrorMessage(e.message);
+		}
+	}, [window.ethereum]);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -57,12 +61,6 @@ const LoginModalComponent = ({account,setAccount, userBalance, setUserBalance, r
 		setIsLoading(false)
 		);
 	}, [account]);
-
-	useEffect(() => {
-		setTimeout(() => {
-			setErrorMessage(null);
-		}, 5000);
-	}, [errorMessage]);
 
 	const resetState = () => {
 		window.location.reload();
@@ -196,13 +194,14 @@ const LoginModalComponent = ({account,setAccount, userBalance, setUserBalance, r
 			)
 			await faucetContract.depositWithPermit(amount, deadline, v, r, s);
 			queryTokenBalanceUpdated(userBalance);
+			setReviveAmt(0);
 		} catch (err) {
 			setErrorMessage(err.message);
 		}
 	}
 
 	const checkAccountMaticBalance = async (account) => {
-		if (account) {
+		if (account && provider) {
 			const balance = await provider.getBalance(account);
 			if (balance) setUserMaticBalance(ethers.utils.formatEther(balance));
 		}
@@ -268,11 +267,15 @@ const LoginModalComponent = ({account,setAccount, userBalance, setUserBalance, r
 		});
 		if (result!=null) setUserBalance(result);
 		setIsLoading(false);
+		navigate("/")
+		window.location.reload();
 	}
 
-	// listen for account changes
-	window.ethereum.on('accountsChanged', accountChangedHandler);
-	window.ethereum.on('chainChanged', chainChangedHandler);
+	const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/prologue")
+  }
 
   return (
 		<ChakraProvider>
@@ -280,41 +283,45 @@ const LoginModalComponent = ({account,setAccount, userBalance, setUserBalance, r
 				backgroundColor: "rgba(255, 255, 255,0.6)",
 				padding: "10px",
 				borderRadius: "10px",
-				position: "absolute",
-				right: "10px",
 				display: "flex",
-				flexDirection: "column"
+				flexDirection: "column",
+				marginBlock:"40%",
 			}}>
 				{account==='' ? 
 					<Button type="button" onClick={connectButtonClickHandler}>{connButtonText}</Button> 
-				: isLoading ?
-					<Spinner size="xl" />
-				:
+				: 
 					<>
 						<Box className='accountDisplay'>
 							<Text>Address: {account}</Text>
 						</Box>
-						<Box className='balanceDisplay'>
-							<Text>Balance: {userBalance}</Text>
-						</Box>
 					</>
 				}
-				{account!=='' && userMaticBalance==0 ? 
+				{
+					account!=='' && userMaticBalance==0 ? 
 					<Link href="https://mumbaifaucet.com/" textDecoration={"underline"} isExternal>Get Your Testnet MATIC Here<ExternalLinkIcon mx='2px' /></Link> 
 				: 
 					null
 				}
+				{
+					account.length && userBalance && userBalance>0 && reviveAmt===0 ? 
+					<Button style={{
+						marginTop: '5px',
+					}} onClick={handleClick}>Start Game</Button>
+					: null  
+				}
 				{reviveAmt>0 ? 
 					<Button style={{
 						marginTop: '5px',
-					}} onClick={() => depositWithPermit(1)}>Spend Token to Revive</Button> 
+					}} onClick={() => {
+						depositWithPermit(reviveAmt)
+					}}>Spend Token to Revive</Button> 
 				: 
 					null
 				}
-				{rewardAmt>0 ? 
+				{account!=='' && (rewardAmt>0 || isLogin) ? 
 					<Button style={{
 						marginTop: '5px',
-					}} onClick={requestFromFaucet}>Claim Reward</Button> 
+					}} onClick={requestFromFaucet}>Claim {isLogin? 'Daily': ''} Reward</Button> 
 				: 
 					null
 				}
@@ -322,11 +329,6 @@ const LoginModalComponent = ({account,setAccount, userBalance, setUserBalance, r
 					<Button style={{
 						marginTop: '5px',
 					}} onClick={resetState}>Logout</Button> 
-				: 
-					null
-				}
-				{errorMessage ? 
-					<Badge colorScheme='red'>{errorMessage}</Badge> 
 				: 
 					null
 				}

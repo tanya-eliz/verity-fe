@@ -1,14 +1,7 @@
-import { useNavigate } from "react-router-dom";
 import {useState} from 'react';
 import LoginModalComponent from './LoginModalComponent'
 import {Box, Button, ChakraProvider, Heading, Show, Hide, Input} from "@chakra-ui/react";
-const LandingPage = ({account, setAccount, userBalance, setUserBalance,rewardAmt, setRewardAmt, reviveAmt, setReviveAmt}) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate("/prologue")
-  }
-
+const LandingPage = ({account, setAccount, userBalance, setUserBalance,rewardAmt, setRewardAmt, reviveAmt, setReviveAmt,setErrorMessage,isLoading,setIsLoading}) => {
   return (
     <>
     <Box
@@ -25,26 +18,7 @@ const LandingPage = ({account, setAccount, userBalance, setUserBalance,rewardAmt
         margin: 0
       }}
     />
-    {
-      account.length && userBalance && userBalance>0 ? 
-        <>
-          <ChakraProvider>
-            <Box
-              style={{
-                position: 'absolute',
-                top: '50%',
-                background: 'rgba(255, 255, 255,0.6)',
-                padding: '20px 10px',
-                borderRadius: '20px',
-              }}
-            >
-              <Button onClick={handleClick}>Start Game</Button>
-            </Box>
-          </ChakraProvider>
-        </>
-      : null  
-    }
-    <LoginModalComponent account={account} setAccount={setAccount} userBalance={userBalance} setUserBalance={setUserBalance} rewardAmt={rewardAmt} setRewardAmt={setRewardAmt} reviveAmt={reviveAmt} setReviveAmt={setReviveAmt}/>
+    <LoginModalComponent account={account} setAccount={setAccount} userBalance={userBalance} setUserBalance={setUserBalance} rewardAmt={rewardAmt} setRewardAmt={setRewardAmt} reviveAmt={reviveAmt} setReviveAmt={setReviveAmt} isLogin={true} setErrorMessage={setErrorMessage} isLoading={isLoading} setIsLoading={setIsLoading}/>
     </>
   );
 }

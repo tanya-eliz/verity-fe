@@ -1,7 +1,7 @@
 import {Box,Heading} from '@chakra-ui/react';
 import LoginModalComponent from './LoginModalComponent';
 
-const PenaltyRewardPage = ({account, setAccount, userBalance, setUserBalance,rewardAmt, setRewardAmt, reviveAmt, setReviveAmt}) => {
+const PenaltyRewardPage = ({account, setAccount, userBalance, setUserBalance,rewardAmt, setRewardAmt, reviveAmt, setReviveAmt, isLoading, setIsLoading, setErrorMessage}) => {
   const imgMapping = {
     revive: require('../assets/GameLandingBgImg.png'),
     reward: null,
@@ -12,11 +12,11 @@ const PenaltyRewardPage = ({account, setAccount, userBalance, setUserBalance,rew
       <Box
         style={{
           position: 'absolute',
-          top: '40%',
+          top: '30%',
           background: 'rgba(0, 0, 0,0.6)',
           padding: '20px 10px',
           borderRadius: '20px',
-          width:'1000px',
+          minWidth:'450px',
           height: 'fit-content'
         }}
       >
@@ -24,7 +24,7 @@ const PenaltyRewardPage = ({account, setAccount, userBalance, setUserBalance,rew
           reviveAmt && reviveAmt > 0 ?
             <Heading
               style={{
-                color:'white'
+                color:'white',
               }}
             >You have died, you will need to pay {reviveAmt} essence to revive and continue</Heading>
           : null
@@ -56,7 +56,7 @@ const PenaltyRewardPage = ({account, setAccount, userBalance, setUserBalance,rew
           margin: 0
         }}
         />
-        <LoginModalComponent account={account} setAccount={setAccount} userBalance={userBalance} setUserBalance={setUserBalance} rewardAmt={rewardAmt} setRewardAmt={setRewardAmt} reviveAmt={reviveAmt} setReviveAmt={setReviveAmt}/>
+        <LoginModalComponent account={account} setAccount={setAccount} userBalance={userBalance} setUserBalance={setUserBalance} rewardAmt={rewardAmt} setRewardAmt={setRewardAmt} reviveAmt={reviveAmt} setReviveAmt={setReviveAmt} setIsLoading={setIsLoading} isLoading={isLoading} setErrorMessage={setErrorMessage}/>
         </>
         : null
       }
