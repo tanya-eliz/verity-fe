@@ -25,11 +25,9 @@ import {
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 
-const LoginModalComponent = () => {  
+const LoginModalComponent = ({account,setAccount, userBalance, setUserBalance, rewardAmt, setRewardAmt, reviveAmt, setReviveAmt}) => {  
   const [errorMessage, setErrorMessage] = useState(null);
 	const [loggedInClicked,setLoggedInClicked] = useState(false);
-	const [account, setAccount] = useState("");
-	const [userBalance, setUserBalance] = useState(null);
 	const [userMaticBalance, setUserMaticBalance] = useState(0);
 	const [connButtonText, setConnButtonText] = useState('Connect Wallet');
 	const [provider, setProvider] = useState(null);
@@ -219,6 +217,7 @@ const LoginModalComponent = () => {
 		try {
 			setRequestFaucetPrompt(false);
 			await faucetContract.requestTokens();
+			await queryTokenBalanceUpdated(userBalance);
 		} catch (err) {
 			const reason = err.reason
 			switch (reason) {
@@ -305,17 +304,17 @@ const LoginModalComponent = () => {
 				: 
 					null
 				}
-				{userBalance>0 ? 
+				{reviveAmt>0 ? 
 					<Button style={{
 						marginTop: '5px',
-					}} onClick={() => depositWithPermit(1)}>Deposit</Button> 
+					}} onClick={() => depositWithPermit(1)}>Spend Token to Revive</Button> 
 				: 
 					null
 				}
-				{userMaticBalance>0 ? 
+				{rewardAmt>0 ? 
 					<Button style={{
 						marginTop: '5px',
-					}} onClick={requestFromFaucet}>Get More Verity Token</Button> 
+					}} onClick={requestFromFaucet}>Claim Reward</Button> 
 				: 
 					null
 				}

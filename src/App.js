@@ -12,16 +12,19 @@ function App() {
   const [name, setName] = useState(null);
   const [town, setTown] = useState(null);
   const [occupation, setOccupation] = useState(null);
+  const [account, setAccount] = useState("");
+  const [userBalance, setUserBalance] = useState(null);
+  const [rewardAmt, setRewardAmt] = useState(0);
+  const [reviveAmt, setReviveAmt] = useState(0);
 
   const router = createBrowserRouter([
-    { path: '/', element: <LandingPage name={name} setName={setName} town={town} setTown={setTown}/> },
-    { path: '/prologue', element: <Prologue name={name} setName={setName} town={town} setTown={setTown} occupation={occupation} setClass={setOccupation}/> },
+    { path: '/', element: <LandingPage account={account} setAccount={setAccount} userBalance={userBalance} setUserBalance={setUserBalance} rewardAmt={rewardAmt} setRewardAmt={setRewardAmt} reviveAmt={reviveAmt} setReviveAmt={setReviveAmt}/> },
+    { path: '/prologue', element: <Prologue name={name} setName={setName} town={town} setTown={setTown} occupation={occupation} setOccupation={setOccupation}/> },
     { path: '/storyline', element: <Storyline name={name} town={town}/> },
   ])
 
   return (
     <div className="App">
-      <LoginModalComponent/>
       <RouterProvider router={router} />
     </div>
   );

@@ -1,9 +1,9 @@
 import React,{ useState } from 'react';
 import {Box, Button, ChakraProvider, Heading, Show, Hide, Input} from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
-import Typewriter from "typewriter-effect";
+import TypeWriterEffect from 'react-typewriter-effect';
 
-const Prologue = ({name,setName,country,setCountry,occupation,setOccupation}) => {
+const Prologue = ({name,setName,town,setTown,occupation,setOccupation}) => {
   const [step,setStep] = useState(0);
   const story = [
     {
@@ -74,6 +74,15 @@ const Prologue = ({name,setName,country,setCountry,occupation,setOccupation}) =>
       input: null,
     },
   ]
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (step === story.length-1) {
+      navigate('/storyline')
+    } else {
+      setStep(step+1)
+    }
+  }
 
   return (
     <>
@@ -82,7 +91,7 @@ const Prologue = ({name,setName,country,setCountry,occupation,setOccupation}) =>
           story.map(({text,image,audio,input,option},index) => {
             const i = image
             return (
-              <>
+              <div key={index}>
                 {
                   step === index &&
                   <Box
@@ -96,27 +105,68 @@ const Prologue = ({name,setName,country,setCountry,occupation,setOccupation}) =>
                       height: '100vh',
                       zIndex: -100,
                       border: 0,
-                      margin: 0
+                      margin: 0,
+                      display: 'flex',
+                      justifyContent: 'center',
                     }}
                   >
                     <Box
                       style={{
-                        position: 'absolute',
-                        top: '50%',
-                        background: 'rgba(255, 255, 255,0.6)',
+                        marginTop: '30px',
+                        background: 'rgba(0, 0, 0,0.6)',
                         padding: '20px 10px',
                         borderRadius: '20px',
+                        width:'1000px',
+                        height: 'fit-content'
                       }}
                     >
-                      <Typewriter delay={0} onInit={(typewriter) => { typewriter.typeString(text).start() }}/>
+                      <TypeWriterEffect
+                        textStyle={{
+                          color: 'white',
+                          fontSize: '1.5em'
+                        }}
+                        hideCursorAfterText={true}
+                        startDelay={100}
+                        cursorColor="white"
+                        text={text}
+                        typeSpeed={50}
+                      />
                     </Box>
                   </Box>
                 }
-              </>
+              </div>
             )
           })
         }
-        <Button onClick={()=>setStep(step+1)}>Next</Button>
+        { step == 5 ?
+        <Input style={{
+          zIndex: 100,
+          position: "absolute",
+          bottom: '25%',
+          width: '500px',
+        }} placeholder="Name" onChange={(e)=>setName(e.target.value)} /> : null}
+        { step == 6 ?
+        <Input style={{
+          zIndex: 100,
+          position: "absolute",
+          bottom: '25%',
+          width: '500px',
+        }} placeholder="Country" onChange={(e)=>setTown(e.target.value)} /> :null }
+        { step == 7 ? 
+        <Input style={{
+          zIndex: 100,
+          position: "absolute",
+          bottom: '25%',
+          width: '500px',
+        }} placeholder="Occupation" onChange={(e)=>setOccupation(e.target.value)} /> :null }
+        <Button 
+          onClick={handleClick}
+          style={{
+            zIndex: 100,
+            position: "absolute",
+            bottom: '20%',
+          }}
+        >{step<(story.length-1) ? 'Next' : 'Proceed'}</Button>
       </ChakraProvider>
     </>
   )
