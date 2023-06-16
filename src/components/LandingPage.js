@@ -2,6 +2,7 @@ import {useState} from 'react';
 import LoginModalComponent from './LoginModalComponent'
 import {Box, Button, ChakraProvider, Heading, Show, Hide, Input} from "@chakra-ui/react";
 const LandingPage = ({account, setAccount, userBalance, setUserBalance,rewardAmt, setRewardAmt, reviveAmt, setReviveAmt,setErrorMessage,isLoading,setIsLoading}) => {
+
   return (
     <>
     <Box
@@ -24,3 +25,4 @@ const LandingPage = ({account, setAccount, userBalance, setUserBalance,rewardAmt
 }
 
 export default LandingPage;
+
