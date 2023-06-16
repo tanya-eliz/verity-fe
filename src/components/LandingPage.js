@@ -1,7 +1,11 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import {useState} from 'react';
 import LoginModalComponent from './LoginModalComponent'
 import {Box, Button, ChakraProvider, Heading, Show, Hide, Input} from "@chakra-ui/react";
+import testbgImage from "./testbg.jpeg";
+import fragmentImage from "./fragment.png";
+
 const LandingPage = ({account, setAccount, userBalance, setUserBalance,rewardAmt, setRewardAmt, reviveAmt, setReviveAmt}) => {
   const navigate = useNavigate();
 
@@ -50,3 +54,4 @@ const LandingPage = ({account, setAccount, userBalance, setUserBalance,rewardAmt
 }
 
 export default LandingPage;
+

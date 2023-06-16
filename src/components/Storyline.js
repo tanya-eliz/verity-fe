@@ -6,6 +6,7 @@ import {playAudio} from '../utils/tts';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { MainContainer, ChatContainer, MessageList, Message, MessageInput, TypingIndicator } from '@chatscope/chat-ui-kit-react';
 
+
 const API_KEY = "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";
 
 const systemMessage = { 
@@ -101,8 +102,13 @@ function Storyline({bgImage,name,town}) {
   }
 
   return (
-    <div className="App">
-      <div style={{ position:"relative", height: "80vh", width: "100%"  }}>
+    <>
+      {
+        latestResponse.length>0? 
+        <ImageGenerator message={latestResponse} style={{zIndex: '-1'}} />
+        : <ImageGenerator message={messages[0].message} style={{zIndex: '-1'}} />
+      }
+      <div style={{position:"relative", height: "80vh", marginTop: '5%', paddingInline:'5%', width: "100%", fontStyle: 'bold'}}>
             <div style={{height:"100%", width:"100%"}}
               scrollBehavior="smooth" 
               typingIndicator={isTyping ? <TypingIndicator content="Elara is typing" /> : null}
@@ -113,19 +119,17 @@ function Storyline({bgImage,name,town}) {
                 
                 return <Message key={i} model={message}/>
               })}
-              {
-                latestResponse.length>0? 
-                <>
-                  <ImageGenerator message={latestResponse} style={{zIndex: '-1'}} />
-                </>
-                : null
-              }
+              
             </div>
-            <MessageInput placeholder="Type response here" onSend={handleSend} />        
- 
+
+            <MessageInput 
+            style={{ background:'transparent !important'}}
+            attachButton={false}
+            placeholder="Type response here" onSend={handleSend} />        
+
       </div>
       
-    </div>
+    </>
   )
 }
 
