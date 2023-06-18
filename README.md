@@ -19,7 +19,7 @@ To get started, you first need to create the following API keys:
 
 Duplicate the `.env.example` file in your project root directory, rename it to `.env` and update the API keys accordingly.
 
-As the project currently only supports metamask login, please make sure you have metamask installed in your browser and that you are connected to the POLYGON MUMBAI testnet and that you have some testnet tokens in your wallet. You can retrieve them from this [faucet](https://mumbaifaucet.com/)
+As the project currently only supports metamask login, please make sure you have metamask installed in your browser and that you are connected to the POLYGON MUMBAI testnet and that you have some testnet tokens in your wallet. You can get them from [faucet](https://mumbaifaucet.com/)
 ## Installation
 
 - Installing the required Dependencies: `npm install`
